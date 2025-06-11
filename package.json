@@ -1,0 +1,28 @@
+{
+  "name": "block35.classdemo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start:dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/azodnemkrik/Block35.ClassDemo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/azodnemkrik/Block35.ClassDemo/issues"
+  },
+  "homepage": "https://github.com/azodnemkrik/Block35.ClassDemo#readme",
+  "description": "",
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "pg": "^8.16.0",
+    "uuid": "^11.1.0"
+  }
+}
