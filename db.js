@@ -3,6 +3,19 @@ const client = new pg.Client('postgres://localhost/fav_products' || process.env.
 const {v4} = require('uuid')
 const uuidv4 = v4
 
+
+const createUser = async (user) => {
+    const SQL = `
+        INSERT INTO users
+        (id, username, password)
+        VALUES
+        ($1, $2, $3)
+        RETURNING *
+    `
+    const response = await client.query(SQL , [uuidv4(), user.username, user.password ])
+    return response.rows[0]
+}
+
 const createProduct = async (product) => {
     const SQL = `
         INSERT INTO products
@@ -23,7 +36,6 @@ const seed = async () => {
         DROP TABLE IF EXISTS users;
         CREATE TABLE users(
             id UUID PRIMARY KEY,
-            name VARCHAR(100) NOT NULL,
             username VARCHAR(100) UNIQUE NOT NULL,
             password VARCHAR(100) NOT NULL
         );
@@ -41,12 +53,18 @@ const seed = async () => {
     await client.query(SQL)
     console.log('Created tables and seeded data.')
 
-    // SEED TABLES
+    // ADD DATA
     const [motobycle, tanker, choplotz, shabangin] = await Promise.all([
         createProduct({name: 'Motobycle'}),
         createProduct({name: 'Tanker'}),
         createProduct({name: 'Choplotz'}),
         createProduct({name: 'Shabangin'}),
+    ])
+
+    const [kirk, kathy, mae] = await Promise.all([
+        createUser({username: "Kirk", password:'111'}),
+        createUser({username: "Kathy", password:'222'}),
+        createUser({username: "Mae", password:'333'})
     ])
 
 }
