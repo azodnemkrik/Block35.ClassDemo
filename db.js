@@ -2,9 +2,14 @@ const pg = require('pg')
 const client = new pg.Client('postgres://localhost/fav_products' || process.env.DATABASE_URL)
 const {v4} = require('uuid')
 const uuidv4 = v4
+const bcrypt = require('bcrypt')
 
 
 const createUser = async (user) => {
+    if(!user.username.trim() || !user.password.trim()) {
+        throw Error ('Must have a valid username and password.')        
+    }
+    user.password = await bcrypt.hash(user.password, 6)
     const SQL = `
         INSERT INTO users
         (id, username, password)
@@ -62,9 +67,9 @@ const seed = async () => {
     ])
 
     const [kirk, kathy, mae] = await Promise.all([
-        createUser({username: "Kirk", password:'111'}),
+        createUser({username: "Kirk", password:'222'}),
         createUser({username: "Kathy", password:'222'}),
-        createUser({username: "Mae", password:'333'})
+        createUser({username: "Mae", password:'222'})
     ])
 
 }
